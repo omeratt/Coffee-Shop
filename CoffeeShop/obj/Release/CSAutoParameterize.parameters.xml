@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="UserDal-Web.config Connection String" description="UserDal Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5109.site4now.net;Initial Catalog=db_a81e73_coffeeshop;User Id=db_a81e73_coffeeshop_admin;Password=Coffeeshop10" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\attia\\Desktop\\CShop\\CoffeeShop\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='UserDal']/@connectionString" />
+  </parameter>
+  <parameter name="drinksDal-Web.config Connection String" description="drinksDal Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5109.site4now.net;Initial Catalog=db_a81e73_coffeeshop;User Id=db_a81e73_coffeeshop_admin;Password=Coffeeshop10" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\attia\\Desktop\\CShop\\CoffeeShop\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='drinksDal']/@connectionString" />
+  </parameter>
+  <parameter name="TblDal-Web.config Connection String" description="TblDal Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5109.site4now.net;Initial Catalog=db_a81e73_coffeeshop;User Id=db_a81e73_coffeeshop_admin;Password=Coffeeshop10" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\attia\\Desktop\\CShop\\CoffeeShop\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='TblDal']/@connectionString" />
+  </parameter>
+  <parameter name="TableOrderDal-Web.config Connection String" description="TableOrderDal Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5109.site4now.net;Initial Catalog=db_a81e73_coffeeshop;User Id=db_a81e73_coffeeshop_admin;Password=Coffeeshop10" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\attia\\Desktop\\CShop\\CoffeeShop\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='TableOrderDal']/@connectionString" />
+  </parameter>
+  <parameter name="OrdersDal-Web.config Connection String" description="OrdersDal Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5109.site4now.net;Initial Catalog=db_a81e73_coffeeshop;User Id=db_a81e73_coffeeshop_admin;Password=Coffeeshop10" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\attia\\Desktop\\CShop\\CoffeeShop\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='OrdersDal']/@connectionString" />
+  </parameter>
+  <parameter name="CoffeeShop.Dal.BusinessDal-Web.config Connection String" description="CoffeeShop.Dal.BusinessDal Connection String used in web.config by the application to access the database." defaultValue="CoffeeShop.Dal.BusinessDal_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\attia\\Desktop\\CShop\\CoffeeShop\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CoffeeShop.Dal.BusinessDal']/@connectionString" />
+  </parameter>
+</parameters>

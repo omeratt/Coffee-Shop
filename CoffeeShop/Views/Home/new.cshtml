@@ -1,0 +1,47 @@
+﻿@model List<float>
+
+
+
+<form action="Home/CheckOut" method="post">
+    <div class="container ">
+        <h3>Cart Totals</h3>
+
+
+        <p class="d-flex">
+            <span>Subtotal</span>
+            <span>@Model[0]$</span>
+        </p>
+
+        @*if user is vip so every 10 coffees he gets 1 free*@
+        <p class="d-flex">
+            <span>Discount</span>
+            <span>@Model[1]$</span>
+        </p>
+        <hr>
+        <p class="d-flex total-price">
+            <span>Total</span>
+            <span>@(Model[0]-Model[1])$  </span>
+        </p>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label><input id="ShowBook" name="take" type="checkbox" class="mr-2"> I Want Take-Away</label>
+                </div>
+                @if (Session["AgeLimit"] != null && bool.Parse(Session["AgeLimit"].ToString()))
+                {
+                    <div class="checkbox">
+                        <label><input id="AgeLimit" name="take" type="checkbox" class="mr-2"> I am 18+</label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @if (Session["AgeLimit"] != null && bool.Parse(Session["AgeLimit"].ToString()))
+     {
+        <p class="text-center"><input id="btnSub" type="submit" value="Proceed to Checkout" class="btn btn-primary py-3 px-4" disabled></p>
+     }
+     else { 
+        <p class="text-center"><input type="submit" value="Proceed to Checkout" class="btn btn-primary py-3 px-4"></p>   
+     }
+</form>    
+

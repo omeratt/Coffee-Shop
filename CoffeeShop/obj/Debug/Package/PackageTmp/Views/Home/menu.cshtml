@@ -1,0 +1,139 @@
+﻿@using CoffeeShop.Dal
+@using CoffeeShop.Models
+@using Microsoft.Ajax.Utilities
+@{
+    ViewBag.Title = "menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    AjaxOptions ajaxOpt = new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "unrefresh2"
+    };
+    List<Drink> drinks = ViewBag.sort;
+
+}
+
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="sidebar-box ftco-animate">
+                <h3>Order By</h3>
+                <form method="post" action="Menu">
+                    <span>
+                        <select name="sortSelect" autocomplete="off" id="s-result-sort-select" tabindex="0" data-action="a-dropdown-select" class="btn btn-primary btn-outline-primary">
+                            <option value="most-popular">Most popular</option>
+                            <option value="least-popular">Least popular</option>
+                            <option value="price-desc" selected>Price: High to low</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="name-desc">Z-A </option>
+                            <option value="name-asc">A-Z</option>
+                            <option value="in-stock">In stock</option>
+                            <option value="Business lunch">Business lunch</option>
+                        </select>
+                    </span>
+                    <button type="submit" class="btn btn-primary btn-outline-primary">sort</button>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-5 pb-8">
+                    @* start *@
+                    <div class="col-md-15">
+                        <h3 class="mb-5 heading-pricing ftco-animate">Drinks</h3>
+                        @foreach (Drink d in drinks)
+                        {
+                        <div class="pricing-entry d-flex ftco-animate">
+                            
+                            @if (d.isBusiness)
+                            {
+                                if (d.name.Contains("Burger"))
+                                {
+                                    <div class="img" style="background-image: url(../../images/burger-@(d.img).jpg);"></div>
+                                }
+                                else { 
+                                    <div class="img" style="background-image: url(../../images/dish-@(d.img).jpg);"></div>
+                                }
+                            }
+                            @if (!d.isAlcohol && !d.isBusiness)
+                            {
+                                <div class="img" style="background-image: url(../../images/menu-@(d.img).jpg);"></div>
+                            }
+                            @if (d.isAlcohol && !d.isBusiness)
+                            {
+                                <div class="img" style="background-image: url(../../images/drink-@(d.img).jpg);"></div>
+                            }
+                            <div class="desc pl 10">
+                                <div class="d-flex text align-items-center">
+                                    <h3><span>@d.name</span></h3>
+
+                                    @if (d.isBusiness)
+                                    {
+                                        <span class="price"> <s>@d.price$</s> @((double.Parse(d.price)*0.9).ToString()) $</span>
+                                    }
+                                    else{ 
+                                         <span class="price">@d.price$</span>
+                                    }
+
+                                </div>
+                                @if (d.amount > 0)
+                                {
+                                    <div class="d-block">
+                                        <p>In Stock: @d.amount</p>
+                                        <p>Popularity: @d.popular</p>
+                                        @if (d.isBusiness)
+                                        { 
+                                            if(DateTime.Now.Hour > 16)
+                                            {
+                                                <p>business launch are only available from 14:00 to 16:00</p>
+                                            }
+                                        }
+                                    </div>
+                                }
+                                @if (d.amount <= 0)
+                                {
+                                    <div class="d-block">
+                                        <p style="color:orangered">Out Of Stock!</p>
+                                    </div>
+
+                                }
+                            @using (Ajax.BeginForm("AddToCart", "Home", ajaxOpt))
+                            {
+                                if (!@d.isBusiness) {
+                                    <div class="d-flex align-items-lg-end">
+                                        <button href="#" type="submit" class="btn btn-primary btn-outline-primary">Add to Cart</button>
+                                    </div>
+
+                                    <input style="display:none;" type="text" name="prod" value="@d.id" />                               
+                                }
+
+                                if (@d.isBusiness)
+                                {
+                                    if (DateTime.Now.Hour > 16)
+                                    {
+                                        <div class="d-flex align-items-lg-end">
+                                            <button href="#" type="button" class="btn btn-primary btn-outline-primary" disabled>Unavailable</button>
+                                        </div>
+
+                                        <input style="display:none;" type="text" name="prod" value="@d.id" />
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-lg-end">
+                                            <button href="#" type="submit" class="btn btn-primary btn-outline-primary">Add to Cart</button>
+                                        </div>
+
+                                        <input style="display:none;" type="text" name="prod" value="@d.id" /> 
+
+                                    }
+                                }
+                            }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+

@@ -1,0 +1,109 @@
+﻿@using CoffeeShop.Models
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Coffee Shop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/animate.css">
+    <link rel="stylesheet" href="~/Content/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Content/magnific-popup.css">
+    <link rel="stylesheet" href="~/Content/aos.css">
+    <link rel="stylesheet" href="~/Content/ionicons.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="~/Content/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/Content/flaticon.css">
+    <link rel="stylesheet" href="~/Content/icomoon.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="~/Home">Coffee<small>Blend</small></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="~/Home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="~/home/Menu" class="nav-link">Menu</a></li>
+                    <div class="nav-item " style="width: 30%; ">
+                        <form action="SearchItems" method="post" class="nav-link">
+                            <div class="input-group">
+                                <input id="search" style="max-height:28px" name="searchInput" type="text" class="form-control rounded" placeholder="Search" aria-label="Search"
+                                       aria-describedby="search-addon" />
+                                <button id="k" type="submit" style="max-height:28px" class="btn btn-primary btn-outline-primary">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="~/home" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="shop.html">
+                                <a class="dropdown-item" href="~/home/cart">Cart</a>
+                                <a class="dropdown-item" href="~/home/checkout">Checkout</a>
+                        </div>
+                    </li>
+                    @{ if (Session["email"] == null)
+                        {
+                            <li class="nav-item active"><a href="http://localhost:58184/LogReg" class="nav-link">Sign-In & Sign-Up</a></li>}
+                    }
+                    @{ if (Session["email"] != null)
+                        {
+                            <li class="nav-item active"><a href="~/Logout" class="nav-link">Log-Out</a></li>}
+                    }
+                    @{ if (Session["email"] != null && Session["role"].ToString() == "admin")
+                        {
+                            <li class="nav-item active"><a href="~/admin" class="nav-link">admin</a></li>
+                        }
+                    }
+                    @if (Session["email"] != null && Session["role"].ToString() == "barista")
+                        {
+                            <li class="nav-item active"><a href="~/barista" class="nav-link">Barista</a></li>
+                        }
+
+                    @Html.Partial("/Views/Shared/ProdCount.cshtml", ((List<Drink>)Session["CartProd"]).Count)
+
+
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+    @RenderBody()
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-migrate-3.0.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.easing.1.3.js"></script>
+    <script src="~/Scripts/jquery.waypoints.min.js"></script>
+    <script src="~/Scripts/jquery.stellar.min.js"></script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/jquery.magnific-popup.min.js"></script>
+    <script src="~/Scripts/aos.js"></script>
+    <script src="~/Scripts/jquery.animateNumber.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.timepicker.min.js"></script>
+    <script src="~/Scripts/scrollax.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="~/Scripts/google-map.js"></script>
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+</body>
+</html>

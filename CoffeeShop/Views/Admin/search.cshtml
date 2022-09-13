@@ -1,0 +1,71 @@
+﻿
+@using CoffeeShop.Models
+@model List<user>
+
+
+
+@*<link href="~/Content/css-admin/style.css" rel="stylesheet" />*@
+@*<link href="~/Content/css-admin/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/css-admin/owl.carousel.min.css" rel="stylesheet" />
+<link href="~/Content/css-admin/bootstrap.min.css.map"></link>
+<script src="~/Scripts/js-admin/popper.min.js"></script>
+<script src="~/Scripts/js-admin/bootstrap.min.js"></script>
+<script src="~/Scripts/js-admin/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/js-admin/main.js"></script>*@
+<!--Show Users-->
+@if (Model != null)
+{
+    <div class="table-responsive custom-table-responsive ">
+        <table class="table custom-table ">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <label class="control control--checkbox">
+                            <input type="checkbox" class="js-check-all" />
+                            <div class="control__indicator"></div>
+                        </label>
+                    </th>
+                    <th scope="col">Full name</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Is Vip</th>
+
+                </tr>
+            </thead>
+            <tbody >
+                @foreach (user u in Model)
+                {
+
+                    <tr scope="row" class="">
+                        <th scope="row">
+                            <label class="control control--checkbox">
+                                <input type="checkbox" />
+                                <div class="control__indicator"></div>
+                            </label>
+                        </th>
+                        <td>
+                            @u.name
+                        </td>
+                        <td><a href="#">@u.email </a></td>
+                        <td>
+                            @u.role
+                        </td>
+                        @if (u.isVip)
+                        {
+                            <td> Vip</td>
+
+                        }
+                        else
+                        {
+                            <td>No</td>
+
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{ <h1>no users</h1>}

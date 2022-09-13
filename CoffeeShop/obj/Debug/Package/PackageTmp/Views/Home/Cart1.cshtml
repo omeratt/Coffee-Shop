@@ -1,0 +1,107 @@
+﻿@using CoffeeShop.Models
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int totals = 0;
+    List<Drink> drinks = ((List<Drink>)Session["CartProd"]);
+    foreach (Drink d in drinks)
+    {
+        totals += int.Parse(d.price);
+    }
+
+    List<Drink> didi = ((Dictionary<Drink, int>)Session["CartDict"]).Keys?.ToList();
+    Dictionary<Drink, int> drinkDict = (Dictionary<Drink, int>)Session["CartDict"];
+}
+
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <!--<th>&nbsp;</th>-->
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th style="display:none"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @Html.BeginForm("UpdateCart","Home",FormMethod.Post){
+                            @foreach (Drink d in didi)
+                            {
+                            <tr class="text-center">
+                                <!--   <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>-->
+                                @if (!d.isAlcohol)
+                                {
+                                    <td class="image-prod"><div class="img" style="background-image:url(../../images/menu-@(d.img).jpg);"></div></td>
+                                }
+                                @if (d.isAlcohol)
+                                {
+                                    <td class="image-prod"><div class="img" style="background-image:url(../../images/drink-@(d.img).jpg);"></div></td>
+                                }
+
+
+                            <td class="product-name">
+                                <h3>@d.name</h3>
+                                @if (!d.isAlcohol)
+                                {
+                                    <p>Far far away, behind the word mountains, far from the countries</p>
+                                }
+                                else 
+                                {
+                                    <p>Only 18+</p>
+                                }
+                            </td>
+
+                                <td class="price">@d.price$</td>
+
+                                <td class="quantity">
+                                    <div class="input-group mb-3">
+                                        <input type="number" start="@drinkDict[d]" step="1" name="quantity" class="quantity form-control input-number" value="@drinkDict[d]" min="0" max="@d.amount">
+                                    </div>
+                                </td>
+
+                                <td class="total">@{float DrinkPrice = (drinkDict[d] * float.Parse(d.price));} @DrinkPrice$</td>
+
+                                <td> <button type="submit" class="btn btn-primary py-1 px-2 bg-dark" style="color:black"> udpate changes  </button>   </td>
+
+                            </tr><!-- END TR-->
+                            }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col col-lg-3 col-md-6 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3>Cart Totals</h3>
+                    <p class="d-flex">
+                        <span>Subtotal</span>
+                        <span>@ViewBag.Total $</span>
+                    </p>
+
+                    <!--if user is vip so every 10 coffees he gets 1 free-->
+                    <p class="d-flex">
+                        <span>Discount</span>
+                        <span>@ViewBag.Discount $</span>
+                    </p>
+                    <hr>
+                    <p class="d-flex total-price">
+                        <span>Total</span>
+                        <span>@(ViewBag.Total - ViewBag.Discount)$ </span>
+                    </p>
+                </div>
+                <p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,91 @@
+﻿@using CoffeeShop.Models
+@using Microsoft.Ajax.Utilities
+@{ ViewBag.Title = "Cart";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+                float total = 0;
+                List<Drink> drinks = ((List<Drink>)Session["CartProd"]);
+                foreach (Drink d in drinks)
+                {
+                    total += float.Parse(d.price);
+                }
+
+                List<Drink> didi = ((Dictionary<Drink, int>)Session["CartDict"]).Keys?.ToList();
+                Dictionary<Drink, int> drinkDict = (Dictionary<Drink, int>)Session["CartDict"];
+
+                AjaxOptions ajaxOptic = new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "u1"
+                };
+
+                List<float> obj = new List<float>()
+        {
+        total,
+        ViewBag.Discount,
+    }; }
+
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Drink d in didi)
+                            {
+                <tr class="text-center">
+                    <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+                    @if (!d.isAlcohol)
+                    {
+    <td class="image-prod"><div class="img" style="background-image:url(../../images/menu-@(d.img).jpg);"></div></td>
+}
+                    @if (d.isAlcohol)
+                    {
+    <td class="image-prod"><div class="img" style="background-image:url(../../images/drink-@(d.img).jpg);"></div></td>
+}
+
+
+                    <td class="product-name">
+                        <h3>@d.name</h3>
+                        <p>Far far away, behind the word mountains, far from the countries</p>
+                    </td>
+
+                    <td class="price">@d.price$</td>
+                        <td class="quantity">
+                            <div class="input-group mb-3">
+                                <input style="display:none" name="changing" value="@d" />
+                    @using (Ajax.BeginForm("UpdateCart", "Home", ajaxOptic, new { id = "newPrice" }))
+                    {
+                                { ViewBag.change = d;
+                                    TempData["change"] = d; }
+                                <input type="number" start="@drinkDict[d]" step="1" onchange="$('#newPrice').trigger('submit')" name="quantity" class="quantity form-control input-number" value="@drinkDict[d]" min="1" max="@d.amount">
+                    }
+                            </div>
+                        </td>
+                    <td class="total">@{float DrinkPrice = (drinkDict[d] * float.Parse(d.price));} @DrinkPrice$</td>
+
+                </tr><!-- END TR-->}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div id="u1">
+               
+                @{ Html.RenderPartial("new");}
+            </div>
+    </div>
+</section>

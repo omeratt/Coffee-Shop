@@ -1,0 +1,34 @@
+﻿@using CoffeeShop.Dal;
+@using CoffeeShop.Models;
+
+@{
+    ViewBag.Title = "edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<coffee> coffeList = (new coffeeDal()).Coffee.ToList<coffee>();
+}
+
+<link href="~/Content/css-admin/style.css" rel="stylesheet" />
+<link href="~/Content/css-admin/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/css-admin/owl.carousel.min.css" rel="stylesheet" />
+<a href="~/Content/css-admin/bootstrap.min.css.map"></a>
+
+<!aria-labelledby="v-pills-1-tab">
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                @foreach (coffee c in coffeList)
+                {
+                    <div class="col-md-3">
+                        <div class="menu-entry">
+                                
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+<script src="~/Scripts/js-admin/popper.min.js"></script>
+<script src="~/Scripts/js-admin/bootstrap.min.js"></script>
+<script src="~/Scripts/js-admin/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/js-admin/main.js"></script>

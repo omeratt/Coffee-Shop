@@ -1,0 +1,8 @@
+﻿@using CoffeeShop.Models
+@model Drink
+@{ 
+    Dictionary<Drink, int> drinkDict = (Dictionary<Drink, int>)Session["CartDict"];
+    Drink d = drinkDict.Keys.ToList().Where(dr => (dr.id == Model.id)).ToList()[0];
+    
+}
+@{float DrinkPrice = (drinkDict[d] * float.Parse(d.price));}  @DrinkPrice$

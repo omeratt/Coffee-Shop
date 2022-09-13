@@ -1,0 +1,247 @@
+﻿@using CoffeeShop.Models
+@using Microsoft.Ajax.Utilities
+@{ ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    List<Drink> didi = ((Dictionary<Drink, int>)Session["CartDict"]).Keys?.ToList();
+    Dictionary<Drink, int> drinkDict = (Dictionary<Drink, int>)Session["CartDict"];
+
+    float total = 0;
+    foreach (Drink d in drinkDict.Keys)
+    {
+        total += float.Parse(d.price) * drinkDict[d];
+    }
+
+    AjaxOptions ajaxOptic = new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "unref"
+    };
+    List<float> s = new List<float>()
+{
+        total,
+        ViewBag.discount
+    };
+    bool isBooked = false;
+    if (Session["isBookedTable"] != null && bool.Parse(Session["isBookedTable"].ToString()) == true)
+    {
+        isBooked = true;
+    }
+
+    bool take = false;
+    bool isPay = false;
+    if (Session["take"] != null && Session["take"].ToString().Equals("on"))
+    {
+        take = true;
+    }
+    if (Session["isPay"] != null)
+    {
+        isPay = true;
+    } }
+
+
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                @*<th>Total</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < didi.Count; i++)
+                            {
+                                Drink d = didi[i];
+                <tr class="text-center">
+                    <td class="product-remove">@Html.ActionLink(" ", "RemoveItemFromCart", new { did = d.id }, new { @class = "icon-close" }) </td>
+                    @if (d.isBusiness)
+                    {
+                        if (d.name.Contains("Burger"))
+                        {
+    <td class="image-prod"><div class="img" style="background-image: url(../../images/burger-@(d.img).jpg);"></div></td>
+ }
+else
+{
+<td class="image-prod"><div class="img" style="background-image: url(../../images/dish-@(d.img).jpg);"></div></td>
+}
+}
+                    @if (!d.isAlcohol && !d.isBusiness)
+                    {
+    <td class="image-prod"><div class="img" style="background-image: url(../../images/menu-@(d.img).jpg);"></div></td>
+}
+                    @if (d.isAlcohol && !d.isBusiness)
+                    {
+    <td class="image-prod"><div class="img" style="background-image: url(../../images/drink-@(d.img).jpg);"></div></td>
+}
+                    }
+
+                    <td class="product-name">
+                        <h3>@d.name</h3>
+                        <p>Far far away, behind the word mountains, far from the countries</p>
+                    </td>
+                    <td class="price">@d.price$</td>
+                    <td class="quantity">
+                        @using (Ajax.BeginForm("UpdateCart", "Home", d.id, ajaxOptic, new { id = "newPrice" + i }))
+                        {
+        <div class="input-group mb-2">
+
+            <input id="did" style="display:none" name="did" value="@d.id" />
+            <input type="number" id="qua" start="@drinkDict[d]" step="1" onchange="$('#newPrice'+@i).trigger('submit')" name="quantity" class="quantity form-control input-number" value="@drinkDict[d]" min="1" max="@d.amount">
+
+        </div>}
+                    </td>
+
+                </tr><!-- END TR-->}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--Book table-->
+        <section class="ftco-appointment" style="align-items: center;">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row no-gutters d-md-flex align-items-center d-flex justify-content-xl-around">
+                    @if (take || !isPay || !isBooked)
+                    {
+        <div class="col-md-6 appointment ftco-animate" id="book">
+            <h3 class="mb-3">Book a Table</h3>
+            <form action="BookTableCart" class="appointment-form" method="post">
+                <div class="d-md-flex">
+                    <div class="form-group">
+                        <input required="" type="number" step="1" min="1" class="form-control" placeholder="Number of seats" name="numberOfSeats">
+                    </div>
+                    <div class="form-group ml-md-4">
+                        <div class="input-group">
+                            <select class="form-control" name="insideOutside">
+                                <option style="background: black">Inside</option>
+                                <option style="background: black">Outside</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-md-flex">
+                    <div class="form-group">
+                        @if (Session["email"] == null)
+                        {<input required="" name="Name" class="form-control" placeholder="name" />}
+                    </div>
+                    <div class="form-group ml-md-4">
+                        @if (!isBooked)
+                        {
+                            <input type="submit" name="submitBtn" value="Appointment" class="btn btn-primary py-3 px-4"> 
+                        }
+                        else
+                        {
+                        <input type="submit" name="submitBtn" value="Update" class="btn btn-primary py-3 px-4">
+                        }
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        }
+                    <div id="unref" class="row justify-content-end col col-lg-3 col-md-6 mt-5 cart-wrap ftco-animate cart-total mb-3">
+                        @Html.Partial("~/Views/Home/new.cshtml", s)
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--End book table-->
+
+    </div>
+</section>
+
+<script>
+    document.getElementById('ShowBook').addEventListener('change', (event) => {
+        if (event.currentTarget.checked) {
+            console.log("asdasd");
+            document.getElementById('book').style.display = 'none';
+        } else {
+            document.getElementById('book').style.display = '';
+        }
+    })
+
+    document.getElementById('AgeLimit').addEventListener('change', (event) => {
+        if (!event.currentTarget.checked) {
+            document.getElementById('btnSub').disabled= true;
+        } else {
+            document.getElementById('btnSub').disabled = false;
+        }
+    })
+</script>
+
+
+@*AgeLimit*@
+
+@*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+
+@*@{
+        <script type="text/javascript">
+            // this one button will update all your partials/widgets, you can add more partials in this function and just copy paste.
+            function UpdateMyWidgets(qua) {
+
+                var did = $('#did').val();
+                $.ajax({
+                    url: "@Url.Action("UpdateCart",d)",    // whom to call
+                    type: "POST",
+
+                    datatype: 'json',
+                    data: {'qua' : qua , 'did' : did},
+            success: function (data) {
+            $("#unref").html(data);  // tell it which div to append on return
+            }
+        });
+
+    }
+        </script>
+    }*@
+
+@*{
+    <script type="text/javascript">
+        // this one button will update all your partials/widgets, you can add more partials in this function and just copy paste.
+        function UpdateMyWidgets() {
+        var qua = $('#qua').val();
+        var did = @d.id;
+        $.ajax({
+            url: "@Url.Action("UpdateCart")",    // whom to call
+            type: "POST",
+
+            datatype: 'json',
+            data: {'qua' : qua , 'did' : did},
+            success: function (data) {
+            $("#unref").html(data);  // tell it which div to append on return
+            }
+            });
+
+        $.ajax({
+            url: "@Url.Action("totalDrink")",    // whom to call
+            type: "POST",
+
+            datatype: 'json',
+            data: html,
+            success: function (data) {
+            $("#unref2").html(data);  // tell it which div to append on return
+            }
+            });
+        }
+    </script>
+    }*@
+
+
+
+
+
+
